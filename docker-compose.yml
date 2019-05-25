@@ -8,7 +8,8 @@ services:
         condition: on-failure
     environment:
       - APP_ALL_PEERS=A,B,C
-      - MESHRPC_CLUSTER_NODES=peer-A,peer-B,peer-C
+      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C
+      - MESHRPC_CLUSTER_TAGNAME=benchmark
     ports:
       - "8282:8282"
     depends_on:
@@ -26,7 +27,8 @@ services:
     environment:
       - APP_PEER_NAME=A
       - APP_ALL_PEERS=A,B,C
-      - MESHRPC_CLUSTER_NODES=peer-A,peer-B,peer-C
+      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C
+      - MESHRPC_CLUSTER_TAGNAME=benchmark
     networks:
       - meshnet
   peer-B:
@@ -38,7 +40,8 @@ services:
     environment:
       - APP_PEER_NAME=B
       - APP_ALL_PEERS=A,B,C
-      - MESHRPC_CLUSTER_NODES=peer-A,peer-B,peer-C
+      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C
+      - MESHRPC_CLUSTER_TAGNAME=benchmark
     networks:
       - meshnet
   peer-C:
@@ -50,7 +53,8 @@ services:
     environment:
       - APP_PEER_NAME=C
       - APP_ALL_PEERS=A,B,C
-      - MESHRPC_CLUSTER_NODES=peer-A,peer-B,peer-C
+      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C
+      - MESHRPC_CLUSTER_TAGNAME=benchmark
     networks:
       - meshnet
 networks:

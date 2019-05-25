@@ -31,7 +31,7 @@ var (
 		Name:   "T tag",
 		Desc:   "Cluster tag name.",
 		EnvVar: "MESHRPC_CLUSTER_TAGNAME",
-		Value:  "example",
+		Value:  "benchmark",
 	})
 	netAddr = app.String(cli.StringOpt{
 		Name:   "listen-addr",
