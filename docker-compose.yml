@@ -1,14 +1,14 @@
 version: "3"
 services:
   bench-api:
-    image: docker.direct/meshrpc/benchmark/bench_api:latest
+    image: docker.direct/meshrpc/benchmark/bench_api:local
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
     environment:
-      - APP_ALL_PEERS=A,B,C
-      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C
+      - APP_ALL_PEERS=A,B,C,D,E
+      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C,peer-D,peer-E
       - MESHRPC_CLUSTER_TAGNAME=benchmark
     ports:
       - "8282:8282"
@@ -16,44 +16,72 @@ services:
       - peer-A
       - peer-B
       - peer-C
+      - peer-D
+      - peer-E
     networks:
       - meshnet
   peer-A:
-    image: docker.direct/meshrpc/benchmark/peer:latest
+    image: docker.direct/meshrpc/benchmark/peer:local
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
     environment:
       - APP_PEER_NAME=A
-      - APP_ALL_PEERS=A,B,C
-      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C
+      - APP_ALL_PEERS=A,B,C,D,E
+      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C,peer-D,peer-E
       - MESHRPC_CLUSTER_TAGNAME=benchmark
     networks:
       - meshnet
   peer-B:
-    image: docker.direct/meshrpc/benchmark/peer:latest
+    image: docker.direct/meshrpc/benchmark/peer:local
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
     environment:
       - APP_PEER_NAME=B
-      - APP_ALL_PEERS=A,B,C
-      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C
+      - APP_ALL_PEERS=A,B,C,D,E
+      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C,peer-D,peer-E
       - MESHRPC_CLUSTER_TAGNAME=benchmark
     networks:
       - meshnet
   peer-C:
-    image: docker.direct/meshrpc/benchmark/peer:latest
+    image: docker.direct/meshrpc/benchmark/peer:local
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
     environment:
       - APP_PEER_NAME=C
-      - APP_ALL_PEERS=A,B,C
-      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C
+      - APP_ALL_PEERS=A,B,C,D,E
+      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C,peer-D,peer-E
+      - MESHRPC_CLUSTER_TAGNAME=benchmark
+    networks:
+      - meshnet
+  peer-D:
+    image: docker.direct/meshrpc/benchmark/peer:local
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      - APP_PEER_NAME=D
+      - APP_ALL_PEERS=A,B,C,D,E
+      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C,peer-D,peer-E
+      - MESHRPC_CLUSTER_TAGNAME=benchmark
+    networks:
+      - meshnet
+  peer-E:
+    image: docker.direct/meshrpc/benchmark/peer:local
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      - APP_PEER_NAME=E
+      - APP_ALL_PEERS=A,B,C,D,E
+      - MESHRPC_CLUSTER_NODES=bench-api,peer-A,peer-B,peer-C,peer-D,peer-E
       - MESHRPC_CLUSTER_TAGNAME=benchmark
     networks:
       - meshnet

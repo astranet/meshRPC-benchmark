@@ -33,8 +33,6 @@ func (s *peerService) Hop(hop *HopState) (*HopState, error) {
 	hop.HopLatency = (hop.Current - hop.Start) / hop.HopCount
 	if hop.HopCount == hop.Limit {
 		return hop, nil
-	} else if hop.HopCount%1000 == 0 {
-		log.Println("DBG: %#v", *hop)
 	}
 	nextSvc := s.otherPeers[hop.Queue[hop.QueueIdx]]
 	lastState, err := nextSvc.Hop(hop)

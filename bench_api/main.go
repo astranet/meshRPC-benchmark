@@ -90,13 +90,7 @@ func httpListenAndServe(c cluster.Cluster) {
 	peerClient := c.NewClient((*allPeers)[0], peer.RPCHandlerSpec)
 	var peerSvc peer.Service = peer.NewServiceClient(peerClient, nil)
 
-	router.POST("/peer/hop", func(c *gin.Context) {
-		var hop *peer.HopState
-		if err := c.BindJSON(&hop); err != nil {
-			c.JSON(500, err.Error())
-			return
-		}
-
+	initState := func(hop *peer.HopState) {
 		hop.Start = time.Now().UnixNano()
 		hop.Current = 0
 		hop.Last = ""
@@ -109,8 +103,40 @@ func httpListenAndServe(c cluster.Cluster) {
 		}
 		hop.HopCount = 0
 		hop.HopLatency = 0
+	}
 
+	allStaticPeers := staticPeers(*allPeers)
+	var staticPeerSvc peer.Service = allStaticPeers[(*allPeers)[0]]
+
+	router.POST("/peer/hop", func(c *gin.Context) {
+		var hop *peer.HopState
+		if err := c.BindJSON(&hop); err != nil {
+			c.JSON(500, err.Error())
+			return
+		}
+		initState(hop)
 		lastState, err := peerSvc.Hop(hop)
+		if err != nil {
+			c.JSON(500, &HopResponse{
+				State: lastState,
+				Error: err,
+			})
+			return
+		}
+		c.JSON(200, &HopResponse{
+			State: lastState,
+		})
+		return
+	})
+
+	router.POST("/staticPeer/hop", func(c *gin.Context) {
+		var hop *peer.HopState
+		if err := c.BindJSON(&hop); err != nil {
+			c.JSON(500, err.Error())
+			return
+		}
+		initState(hop)
+		lastState, err := staticPeerSvc.Hop(hop)
 		if err != nil {
 			c.JSON(500, &HopResponse{
 				State: lastState,
@@ -128,6 +154,14 @@ func httpListenAndServe(c cluster.Cluster) {
 	if err := router.Run(listenAddr); err != nil {
 		log.Fatalln(err)
 	}
+}
+
+func staticPeers(names []string) map[string]peer.Service {
+	allPeers := make(map[string]peer.Service, len(names))
+	for _, name := range names {
+		allPeers[name] = peer.NewService(name, allPeers)
+	}
+	return allPeers
 }
 
 type HopResponse struct {

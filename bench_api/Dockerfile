@@ -4,7 +4,7 @@ RUN apk add --no-cache git
 
 ADD . /gopath/src/github.com/astranet/meshRPC-benchmark
 ENV GOPATH=/gopath
-RUN go get github.com/astranet/meshRPC-benchmark/bench_api
+RUN go install github.com/astranet/meshRPC-benchmark/bench_api
 
 FROM alpine:latest
 
