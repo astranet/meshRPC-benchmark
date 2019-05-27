@@ -1,7 +1,7 @@
 version: "3"
 services:
   bench-api:
-    image: docker.direct/meshrpc/benchmark/bench_api:local
+    image: docker.direct/meshrpc/benchmark/bench_api:latest
     deploy:
       replicas: 1
       restart_policy:
@@ -21,7 +21,7 @@ services:
     networks:
       - meshnet
   peer-A:
-    image: docker.direct/meshrpc/benchmark/peer:local
+    image: docker.direct/meshrpc/benchmark/peer:latest
     deploy:
       replicas: 1
       restart_policy:
@@ -34,7 +34,7 @@ services:
     networks:
       - meshnet
   peer-B:
-    image: docker.direct/meshrpc/benchmark/peer:local
+    image: docker.direct/meshrpc/benchmark/peer:latest
     deploy:
       replicas: 1
       restart_policy:
@@ -47,7 +47,7 @@ services:
     networks:
       - meshnet
   peer-C:
-    image: docker.direct/meshrpc/benchmark/peer:local
+    image: docker.direct/meshrpc/benchmark/peer:latest
     deploy:
       replicas: 1
       restart_policy:
@@ -60,7 +60,7 @@ services:
     networks:
       - meshnet
   peer-D:
-    image: docker.direct/meshrpc/benchmark/peer:local
+    image: docker.direct/meshrpc/benchmark/peer:latest
     deploy:
       replicas: 1
       restart_policy:
@@ -73,7 +73,7 @@ services:
     networks:
       - meshnet
   peer-E:
-    image: docker.direct/meshrpc/benchmark/peer:local
+    image: docker.direct/meshrpc/benchmark/peer:latest
     deploy:
       replicas: 1
       restart_policy:
